@@ -1,0 +1,61 @@
+namespace org.futuremarket
+
+
+asset Contract identified by contractId {
+  o String contractId
+  --> Grower grower
+  --> Importer importer
+  --> Shipper shipper
+  o DateTime arrivalDateTime
+  o Double unitPrice
+  o Double minTemperature
+  o Double maxTemperature
+  o Double minPenaltyFactor
+  o Double maxPenaltyFactor
+}
+
+asset Shipment identified by shipmentId {
+  o String shipmentId
+  o ProductType type
+  o ShipmentStatus status
+  o Long unitCount
+  o TemperatureReading[] temperatureReadings optional
+  --> Contract contractId
+}
+
+enum ProductType {
+  o BANANAS
+  o APPLES
+  o PEARS
+  o PEACHES
+  o COFFEE
+}
+
+enum ShipmentStatus {
+  o CREATED
+  o IN_TRANSIT
+  o ARRIVED
+}
+
+abstract participant Business identified by email {
+  o String email
+  o Address address
+  o Double accountBalance
+}
+
+concept Address {
+  o String city optional
+  o String country
+  o String street optional
+  o String zip optional
+}
+
+participant Grower extends Business {
+}
+
+participant Importer extends Business {
+}
+
+participant Shipper extends Business {
+}
+
